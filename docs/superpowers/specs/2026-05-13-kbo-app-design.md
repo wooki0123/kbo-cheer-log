@@ -61,6 +61,13 @@ KBO 경기 직관 이력을 회원이 개인적으로 기록·관리하는 웹 �
 | weather | text | 날씨 |
 | rating | integer | 별점 (1~5) |
 | memo | text | 메모 (nullable) |
+| innings_data | jsonb | 이닝별 스코어 (nullable, 외부 조회 시 저장) |
+| hits_home | integer | 홈팀 안타 (nullable) |
+| hits_away | integer | 원정팀 안타 (nullable) |
+| errors_home | integer | 홈팀 실책 (nullable) |
+| errors_away | integer | 원정팀 실책 (nullable) |
+| walks_home | integer | 홈팀 볼넷 (nullable) |
+| walks_away | integer | 원정팀 볼넷 (nullable) |
 | created_at | timestamptz | 생성 시각 |
 
 **RLS 정책**: `user_id = auth.uid()` — 본인 데이터만 접근 가능
@@ -90,6 +97,7 @@ KBO 경기 직관 이력을 회원이 개인적으로 기록·관리하는 웹 �
 | `src/actions/auth.ts` | login, signup, signout |
 | `src/actions/records.ts` | createRecord, updateRecord, deleteRecord, getRecords, getRecordById |
 | `src/actions/profile.ts` | getProfile, updateFavoriteTeam |
+| `src/actions/naver.ts` | fetchGameData(date, homeTeam, awayTeam) — 네이버 스포츠 경기 데이터 조회 |
 
 ---
 
@@ -111,3 +119,4 @@ KBO 경기 직관 이력을 회원이 개인적으로 기록·관리하는 웹 �
 - [직관 기록 목록](../pages/PAGE-RECORDS-LIST.md)
 - [새 기록 추가](../pages/PAGE-RECORDS-NEW.md)
 - [기록 상세/수정/삭제](../pages/PAGE-RECORDS-DETAIL.md)
+- [외부 경기 데이터 조회](../pages/PAGE-EXTERNAL-DATA.md)
