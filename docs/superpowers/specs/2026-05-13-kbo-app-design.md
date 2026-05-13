@@ -55,7 +55,8 @@ KBO 경기 직관 이력을 회원이 개인적으로 기록·관리하는 웹 �
 | game_date | date | 경기 날짜 |
 | home_team | text | 홈팀 |
 | away_team | text | 원정팀 |
-| result | text | 'win' / 'lose' / 'draw' (응원팀 기준) |
+| result | text | 'win' / 'lose' / 'draw' (응원팀 기준), 우천취소 시 NULL |
+| is_cancelled | boolean | 우천취소 여부 (DEFAULT false) |
 | stadium | text | 구장명 |
 | weather | text | 날씨 |
 | rating | integer | 별점 (1~5) |
