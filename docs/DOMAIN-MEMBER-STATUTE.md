@@ -3,7 +3,7 @@
 ## Supabase Auth 사용 규칙
 
 - 로그인: `supabase.auth.signInWithPassword({ email, password })`
-- 회원가입: `supabase.auth.signUp({ email, password, options: { emailRedirectTo } })`
+- 회원가입: `supabase.auth.signUp({ email, password })` (emailRedirectTo 사용 금지 — 이메일 인증 없음)
 - 로그아웃: `supabase.auth.signOut()`
 - 세션 확인: `supabase.auth.getUser()` (토큰 검증 포함, `getSession()` 사용 금지)
 

@@ -370,19 +370,22 @@ export default function LoginForm() {
 
 - [ ] **Step 4: SignupForm 컴포넌트 생성**
 
+> **주의:** 이메일 인증 없음. Supabase "Confirm email" OFF 설정 완료. 회원가입 성공 시 `/login`으로 리다이렉트.
+
 `src/components/auth/SignupForm.tsx`:
 
 ```typescript
 'use client'
 
 import { createClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export default function SignupForm() {
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -391,13 +394,7 @@ export default function SignupForm() {
     setError(null)
 
     const supabase = createClient()
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
-    })
+    const { error } = await supabase.auth.signUp({ email, password })
 
     if (error) {
       setError(error.message)
@@ -405,19 +402,7 @@ export default function SignupForm() {
       return
     }
 
-    setSuccess(true)
-    setLoading(false)
-  }
-
-  if (success) {
-    return (
-      <div className="bg-white p-8 rounded-lg shadow text-center">
-        <h1 className="text-2xl font-bold mb-4">이메일을 확인해주세요</h1>
-        <p className="text-gray-600">
-          {email}로 확인 링크를 보냈습니다.
-        </p>
-      </div>
-    )
+    router.push('/login')
   }
 
   return (

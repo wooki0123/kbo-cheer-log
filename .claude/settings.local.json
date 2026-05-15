@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir C:\\\\AIBE6\\\\Agent-coding\\\\backend *)",
+      "PowerShell(Get-ChildItem \"C:\\\\AIBE6\\\\Agent-coding\\\\frontend\\\\src\\\\components\" -Recurse | ForEach-Object { $_.FullName })"
+    ]
+  }
+}
