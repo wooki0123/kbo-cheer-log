@@ -18,8 +18,8 @@ export default async function DashboardPage() {
       </h1>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        <StatsCard label="총 직관" value={stats.total} sub="우천취소 포함" />
-        <StatsCard label="승률" value={`${stats.winRate}%`} sub={`${stats.played}경기 기준`} />
+        <StatsCard label="총 직관" value={stats.total} sub={`응원 ${stats.played} · 중립 ${stats.neutral} · 취소 ${stats.cancelled}`} />
+        <StatsCard label="승률" value={`${stats.winRate}%`} sub={`응원경기 ${stats.played}경기 기준`} />
         <StatsCard label="승 / 패 / 무" value={`${stats.wins} / ${stats.losses} / ${stats.draws}`} />
       </div>
 
