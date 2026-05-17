@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
-import { KBO_TEAMS, KBO_STADIUMS, WEATHER_OPTIONS } from '@/lib/constants/kbo'
+import { KBO_TEAMS, KBO_STADIUMS, WEATHER_OPTIONS, HOME_STADIUM_MAP } from '@/lib/constants/kbo'
 import { fetchGameData } from '@/actions/naver'
 import { createRecord, updateRecord } from '@/actions/records'
 import { GameData, GameRecord, GameResult } from '@/lib/types'
@@ -94,7 +94,11 @@ export default function RecordForm({ initialData, recordId }: Props) {
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className="block text-sm font-medium text-gray-700">홈팀</label>
-          <select required value={homeTeam} onChange={(e) => setHomeTeam(e.target.value)}
+          <select required value={homeTeam} onChange={(e) => {
+              const team = e.target.value
+              setHomeTeam(team)
+              if (HOME_STADIUM_MAP[team]) setStadium(HOME_STADIUM_MAP[team])
+            }}
             className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
             <option value="">선택</option>
             {KBO_TEAMS.map((t) => <option key={t} value={t}>{t}</option>)}
