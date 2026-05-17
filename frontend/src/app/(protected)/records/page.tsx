@@ -1,5 +1,5 @@
 import { getRecords } from '@/actions/records'
-import RecordCard from '@/components/records/RecordCard'
+import RecordListClient from '@/components/records/RecordListClient'
 import Link from 'next/link'
 
 export default async function RecordsPage() {
@@ -26,11 +26,7 @@ export default async function RecordsPage() {
           </Link>
         </div>
       ) : (
-        <div className="space-y-3">
-          {records.map((record) => (
-            <RecordCard key={record.id} record={record} />
-          ))}
-        </div>
+        <RecordListClient records={records} />
       )}
     </div>
   )

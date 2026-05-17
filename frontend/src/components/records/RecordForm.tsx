@@ -18,7 +18,9 @@ type Props = {
 export default function RecordForm({ initialData, recordId, favoriteTeam }: Props) {
   const isEdit = !!recordId
   const [isPending, startTransition] = useTransition()
-  const [gameDate, setGameDate] = useState(initialData?.game_date ?? '')
+  const [gameDate, setGameDate] = useState(
+    initialData?.game_date ?? new Date().toISOString().split('T')[0]
+  )
   const [homeTeam, setHomeTeam] = useState(initialData?.home_team ?? '')
   const [awayTeam, setAwayTeam] = useState(initialData?.away_team ?? '')
 
@@ -63,6 +65,12 @@ export default function RecordForm({ initialData, recordId, favoriteTeam }: Prop
     setResult(myScore > oppScore ? 'win' : myScore < oppScore ? 'lose' : 'draw')
   }
 
+  const autoFetchGame = async (date: string, home: string, away: string, cheering: CheeringTeam | '') => {
+    if (!date || !home || !away) return
+    const data = await fetchGameData(date, home, away)
+    if (data) { setGameData(data); autoSelectResult(cheering, data) }
+  }
+
   const autoFetchAway = async (date: string, home: string) => {
     if (!date || !home) return
     setIsFetchingAway(true)
@@ -70,7 +78,9 @@ export default function RecordForm({ initialData, recordId, favoriteTeam }: Prop
     setIsFetchingAway(false)
     if (away) {
       setAwayTeam(away)
-      setCheeringTeam(inferCheeringTeam(home, away))
+      const newCheering = inferCheeringTeam(home, away)
+      setCheeringTeam(newCheering)
+      autoFetchGame(date, home, away, newCheering)
     }
   }
 
@@ -153,13 +163,16 @@ export default function RecordForm({ initialData, recordId, favoriteTeam }: Prop
               <select required value={awayTeam} onChange={(e) => {
                   const team = e.target.value
                   setAwayTeam(team)
-                  setCheeringTeam(inferCheeringTeam(homeTeam, team))
+                  const newCheering = inferCheeringTeam(homeTeam, team)
+                  setCheeringTeam(newCheering)
+                  autoFetchGame(gameDate, homeTeam, team, newCheering)
                 }}
                 disabled={isFetchingAway}
                 className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:opacity-50">
                 <option value="">선택</option>
                 {KBO_TEAMS.map((t) => <option key={t} value={t}>{t}</option>)}
               </select>
+
             </div>
           </div>
 

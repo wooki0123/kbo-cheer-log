@@ -5,10 +5,13 @@ const RESULT_STYLE: Record<string, string> = {
   win: 'bg-blue-100 text-blue-700',
   lose: 'bg-red-100 text-red-700',
   draw: 'bg-gray-100 text-gray-600',
+  neutral: 'bg-purple-100 text-purple-700',
 }
-const RESULT_LABEL: Record<string, string> = { win: '승', lose: '패', draw: '무' }
+const RESULT_LABEL: Record<string, string> = { win: '승', lose: '패', draw: '무', neutral: '중립' }
 
 export default function RecordCard({ record }: { record: GameRecord }) {
+  const resultKey = record.is_cancelled ? null : (record.result ?? 'neutral')
+
   return (
     <Link href={`/records/${record.id}`}>
       <div className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow flex items-center justify-between">
@@ -22,11 +25,9 @@ export default function RecordCard({ record }: { record: GameRecord }) {
           </p>
         </div>
         <span className={`px-3 py-1 rounded-full text-sm font-bold ${
-          record.is_cancelled
-            ? 'bg-yellow-100 text-yellow-700'
-            : RESULT_STYLE[record.result!]
+          record.is_cancelled ? 'bg-yellow-100 text-yellow-700' : RESULT_STYLE[resultKey!]
         }`}>
-          {record.is_cancelled ? '우천취소' : RESULT_LABEL[record.result!]}
+          {record.is_cancelled ? '우천취소' : RESULT_LABEL[resultKey!]}
         </span>
       </div>
     </Link>
