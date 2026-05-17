@@ -10,6 +10,16 @@
 - 5일 단기 프로젝트 → 미니멀 셋업 + 인증 포함으로 결정
 - frontend/, backend/ 디렉토리 분리 구조 유지
 
+## 2026-05-17 — 네이버 스포츠 API 연동 수정
+
+- 스케줄 API: 엔드포인트, 헤더(origin, x-sports-backend: kotlin), 날짜 형식 수정
+- 팀 코드: SSG=SK, 삼성=SS (Naver 레거시 코드 기준)
+- 박스스코어 API: `/schedule/games/{gameId}/record` (기존 URL 404)
+- 파싱 로직: `teamPitchingBoxscore`의 away/home이 타격팀 기준 역전임을 확인
+- 실책(E): `etcRecords` 텍스트 파싱 + 투수(`pitchersBoxscore`)도 실책 가능
+- 이닝별 점수: `/linescore` 403 (인증 필요) → 기능 자체 제거 결정
+- R/H/E/BB 4컬럼 박스스코어로 확정
+
 ## 2026-05-14 — MVP 범위 확정 및 회원 도메인 원칙 수정
 
 - 이메일 인증 제거: Supabase "Confirm email" OFF 설정 완료. SignupForm 이메일 확인 플로우 삭제. 회원가입 후 /login 리다이렉트

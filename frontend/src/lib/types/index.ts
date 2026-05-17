@@ -1,13 +1,6 @@
 export type GameResult = 'win' | 'lose' | 'draw'
 
-export type InningScore = {
-  inning: number
-  home: number | null
-  away: number | null
-}
-
 export type GameData = {
-  innings: InningScore[]
   total: {
     home: { score: number; hits: number; errors: number; walks: number }
     away: { score: number; hits: number; errors: number; walks: number }

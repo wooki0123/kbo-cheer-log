@@ -22,3 +22,11 @@
 - [x] Task 13: 기록 상세/삭제 페이지 (BoxScore 표시, 삭제 확인)
 - [x] Task 14: 기록 수정 페이지 (`/records/[id]/edit`, RecordForm 수정 모드)
 - [x] Task 15: 최종 점검 (빌드 성공, ESLint 오류 없음)
+
+## 2026-05-17
+
+- [x] 네이버 스포츠 API 엔드포인트 수정 (스케줄, 박스스코어)
+- [x] `NAVER_TEAM_MAP` 팀 코드 2건 수정 (SSG→SK, 삼성→SS)
+- [x] 응답 파싱 로직 전면 재작성 (teamPitchingBoxscore 역전 규칙 적용)
+- [x] 실책(E) 집계: etcRecords 텍스트 파싱 + 투수 이름셋 포함
+- [x] 이닝별 점수 제거 (linescore 403 확인 → GameData, BoxScore에서 제거)
