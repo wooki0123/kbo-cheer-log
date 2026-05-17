@@ -52,6 +52,32 @@ function countErrors(
   return parsed.filter((name) => playerNames.has(name)).length
 }
 
+export async function fetchAwayTeam(
+  date: string,
+  homeTeam: string
+): Promise<string | null> {
+  const homeCode = NAVER_TEAM_MAP[homeTeam]
+  if (!homeCode) return null
+
+  try {
+    const res = await fetch(
+      `https://api-gw.sports.naver.com/schedule/games?fields=basic,schedule,baseball,manualRelayUrl&upperCategoryId=kbaseball&fromDate=${date}&toDate=${date}&size=500`,
+      { headers: NAVER_HEADERS, next: { revalidate: 0 } }
+    )
+    if (!res.ok) return null
+
+    const data = await res.json()
+    const games: NaverScheduleGame[] = data?.result?.games ?? []
+    const game = games.find((g) => g.homeTeamCode === homeCode)
+    if (!game) return null
+
+    const awayEntry = Object.entries(NAVER_TEAM_MAP).find(([, code]) => code === game.awayTeamCode)
+    return awayEntry?.[0] ?? null
+  } catch {
+    return null
+  }
+}
+
 export async function fetchGameData(
   date: string,
   homeTeam: string,
