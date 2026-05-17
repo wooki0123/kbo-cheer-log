@@ -2,6 +2,13 @@
 
 최근 작업 로그 (최대 100개 유지).
 
+## 2026-05-17 (추가 편의성 개선)
+
+- RecordForm: 홈팀·원정팀 중복 선택 방지, 수정 시 중립 경기 응원팀 'neutral' 자동 추론
+- RecordListClient: 날짜 정렬 토글(최신순/오래된순), 구장 필터 select 추가
+- MonthlyChart 컴포넌트 신규 생성 (recharts BarChart, 월별 직관 횟수)
+- 대시보드에 MonthlyChart 추가 (StadiumStats 위)
+
 ## 2026-05-17 (대시보드 통계 구조 개선)
 
 - 제목 '{favoriteTeam} 직관 통계' → '내 직관 통계'로 변경
