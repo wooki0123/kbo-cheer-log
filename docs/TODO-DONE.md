@@ -30,3 +30,9 @@
 - [x] 응답 파싱 로직 전면 재작성 (teamPitchingBoxscore 역전 규칙 적용)
 - [x] 실책(E) 집계: etcRecords 텍스트 파싱 + 투수 이름셋 포함
 - [x] 이닝별 점수 제거 (linescore 403 확인 → GameData, BoxScore에서 제거)
+- [x] 홈팀 선택 시 구장 자동 선택 (HOME_STADIUM_MAP 추가)
+- [x] 기록 폼에 경기별 응원팀 선택 필드 추가 (홈팀/원정팀/중립, 응원팀 자동 선택)
+- [x] DB 제약 완화: 중립 경기 result=NULL 허용 (migration 002)
+- [x] 중립 경기 승률 통계 제외 (played 필터에서 result=null 제외)
+- [x] 대시보드 총 직관 서브텍스트 세분화 (응원·중립·취소 수 표시)
+- [x] 최근 5경기 중립 배지 추가 (보라색, '중립' 레이블)

@@ -2,6 +2,15 @@
 
 최근 작업 로그 (최대 100개 유지).
 
+## 2026-05-17 (편의성 개선)
+
+- 홈팀 선택 시 구장 자동 선택: `HOME_STADIUM_MAP` 추가, RecordForm onChange 연동
+- 기록 폼 응원팀 선택 필드 추가: CheeringTeam (home/away/neutral), 응원팀 포함 시 자동 선택
+- DB `result_required` 제약 완화: 중립 경기(is_cancelled=false, result=NULL) 허용
+- 통계 계산 수정: 중립 경기를 played에서 제외, neutral/cancelled 카운트 추가
+- 대시보드 서브텍스트: "응원 N · 중립 N · 취소 N" 세분화, 승률 sub "응원경기 기준"
+- 최근 5경기 배지: 중립 케이스 처리 (보라색 배지, result! null 단언 제거)
+
 ## 2026-05-17
 
 - 네이버 스포츠 스케줄 API URL 수정: `api-gw.sports.naver.com/schedule/games` + 날짜 형식 유지(대시 포함)
