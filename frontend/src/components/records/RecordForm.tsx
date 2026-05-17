@@ -7,17 +7,31 @@ import { createRecord, updateRecord } from '@/actions/records'
 import { GameData, GameRecord, GameResult } from '@/lib/types'
 import BoxScore from './BoxScore'
 
+type CheeringTeam = 'home' | 'away' | 'neutral'
+
 type Props = {
   initialData?: GameRecord
   recordId?: string
+  favoriteTeam?: string
 }
 
-export default function RecordForm({ initialData, recordId }: Props) {
+export default function RecordForm({ initialData, recordId, favoriteTeam }: Props) {
   const isEdit = !!recordId
   const [isPending, startTransition] = useTransition()
   const [gameDate, setGameDate] = useState(initialData?.game_date ?? '')
   const [homeTeam, setHomeTeam] = useState(initialData?.home_team ?? '')
   const [awayTeam, setAwayTeam] = useState(initialData?.away_team ?? '')
+
+  const inferCheeringTeam = (home: string, away: string): CheeringTeam | '' => {
+    if (!favoriteTeam) return ''
+    if (home === favoriteTeam) return 'home'
+    if (away === favoriteTeam) return 'away'
+    return ''
+  }
+
+  const [cheeringTeam, setCheeringTeam] = useState<CheeringTeam | ''>(
+    () => inferCheeringTeam(initialData?.home_team ?? '', initialData?.away_team ?? '')
+  )
   const [result, setResult] = useState<GameResult | ''>(initialData?.result ?? '')
   const [isCancelled, setIsCancelled] = useState(initialData?.is_cancelled ?? false)
   const [stadium, setStadium] = useState(initialData?.stadium ?? '')
@@ -49,14 +63,14 @@ export default function RecordForm({ initialData, recordId }: Props) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!isCancelled && !result) { setError('결과를 선택하세요.'); return }
+    if (!isCancelled && cheeringTeam !== 'neutral' && !result) { setError('결과를 선택하세요.'); return }
     if (homeTeam === awayTeam) { setError('홈팀과 원정팀이 같을 수 없습니다.'); return }
 
     const payload = {
       game_date: gameDate,
       home_team: homeTeam,
       away_team: awayTeam,
-      result: isCancelled ? null : (result as GameResult),
+      result: (isCancelled || cheeringTeam === 'neutral') ? null : (result as GameResult),
       is_cancelled: isCancelled,
       stadium,
       weather,
@@ -98,6 +112,7 @@ export default function RecordForm({ initialData, recordId }: Props) {
               const team = e.target.value
               setHomeTeam(team)
               if (HOME_STADIUM_MAP[team]) setStadium(HOME_STADIUM_MAP[team])
+              setCheeringTeam(inferCheeringTeam(team, awayTeam))
             }}
             className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
             <option value="">선택</option>
@@ -106,13 +121,43 @@ export default function RecordForm({ initialData, recordId }: Props) {
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">원정팀</label>
-          <select required value={awayTeam} onChange={(e) => setAwayTeam(e.target.value)}
+          <select required value={awayTeam} onChange={(e) => {
+              const team = e.target.value
+              setAwayTeam(team)
+              setCheeringTeam(inferCheeringTeam(homeTeam, team))
+            }}
             className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
             <option value="">선택</option>
             {KBO_TEAMS.map((t) => <option key={t} value={t}>{t}</option>)}
           </select>
         </div>
       </div>
+
+      {(homeTeam || awayTeam) && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">오늘 응원한 팀</label>
+          <div className="flex gap-2">
+            {([
+              { value: 'home', label: homeTeam || '홈팀' },
+              { value: 'away', label: awayTeam || '원정팀' },
+              { value: 'neutral', label: '중립' },
+            ] as { value: CheeringTeam; label: string }[]).map(({ value, label }) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => { setCheeringTeam(value); if (value === 'neutral') setResult('') }}
+                className={`flex-1 py-1.5 text-sm rounded-md border ${
+                  cheeringTeam === value
+                    ? 'bg-blue-600 text-white border-blue-600'
+                    : 'border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div>
         <button type="button" onClick={handleFetchGame} disabled={isFetching}
@@ -155,7 +200,7 @@ export default function RecordForm({ initialData, recordId }: Props) {
         </label>
       )}
 
-      {!isCancelled && (
+      {!isCancelled && cheeringTeam !== 'neutral' && (
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">결과</label>
           <div className="flex gap-3">
