@@ -55,6 +55,14 @@ export default function RecordForm({ initialData, recordId, favoriteTeam }: Prop
   const showRatingMemo = isEdit || (weather !== '' && resultResolved)
   const saveEnabled = rating > 0
 
+  const autoSelectResult = (cheering: CheeringTeam | '', data: GameData | null) => {
+    if (!data || !cheering || cheering === 'neutral') return
+    const { home, away } = data.total
+    const myScore = cheering === 'home' ? home.score : away.score
+    const oppScore = cheering === 'home' ? away.score : home.score
+    setResult(myScore > oppScore ? 'win' : myScore < oppScore ? 'lose' : 'draw')
+  }
+
   const autoFetchAway = async (date: string, home: string) => {
     if (!date || !home) return
     setIsFetchingAway(true)
@@ -73,7 +81,7 @@ export default function RecordForm({ initialData, recordId, favoriteTeam }: Prop
     const data = await fetchGameData(gameDate, homeTeam, awayTeam)
     setIsFetching(false)
     if (!data) setFetchError('경기 데이터를 찾을 수 없습니다.')
-    else setGameData(data)
+    else { setGameData(data); autoSelectResult(cheeringTeam, data) }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -191,7 +199,11 @@ export default function RecordForm({ initialData, recordId, favoriteTeam }: Prop
               { value: 'neutral', label: '중립' },
             ] as { value: CheeringTeam; label: string }[]).map(({ value, label }) => (
               <button key={value} type="button"
-                onClick={() => { setCheeringTeam(value); if (value === 'neutral') setResult('') }}
+                onClick={() => {
+                  setCheeringTeam(value)
+                  if (value === 'neutral') setResult('')
+                  else autoSelectResult(value, gameData)
+                }}
                 className={`flex-1 py-1.5 text-sm rounded-md border ${
                   cheeringTeam === value
                     ? 'bg-blue-600 text-white border-blue-600'
