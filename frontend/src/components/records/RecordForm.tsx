@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useRef } from 'react'
 import { KBO_TEAMS, KBO_STADIUMS, WEATHER_OPTIONS, HOME_STADIUM_MAP } from '@/lib/constants/kbo'
 import { fetchGameData, fetchAwayTeam } from '@/actions/naver'
 import { createRecord, updateRecord } from '@/actions/records'
@@ -38,6 +38,8 @@ export default function RecordForm({ initialData, recordId, favoriteTeam }: Prop
   })
   const [result, setResult] = useState<GameResult | ''>(initialData?.result ?? '')
   const [isCancelled, setIsCancelled] = useState(initialData?.is_cancelled ?? false)
+  const isCancelledRef = useRef(initialData?.is_cancelled ?? false)
+  isCancelledRef.current = isCancelled
   const [stadium, setStadium] = useState(initialData?.stadium ?? '')
   const [weather, setWeather] = useState(initialData?.weather ?? '')
   const [rating, setRating] = useState(initialData?.rating ?? 0)
@@ -60,7 +62,7 @@ export default function RecordForm({ initialData, recordId, favoriteTeam }: Prop
   const saveEnabled = rating > 0
 
   const autoSelectResult = (cheering: CheeringTeam | '', data: GameData | null) => {
-    if (!data || !cheering || cheering === 'neutral') return
+    if (!data || !cheering || cheering === 'neutral' || isCancelledRef.current) return
     const { home, away } = data.total
     const myScore = cheering === 'home' ? home.score : away.score
     const oppScore = cheering === 'home' ? away.score : home.score
