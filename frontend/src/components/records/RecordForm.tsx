@@ -31,9 +31,11 @@ export default function RecordForm({ initialData, recordId, favoriteTeam }: Prop
     return ''
   }
 
-  const [cheeringTeam, setCheeringTeam] = useState<CheeringTeam | ''>(
-    () => inferCheeringTeam(initialData?.home_team ?? '', initialData?.away_team ?? '')
-  )
+  const [cheeringTeam, setCheeringTeam] = useState<CheeringTeam | ''>(() => {
+    if (!initialData) return ''
+    if (initialData.result === null && !initialData.is_cancelled) return 'neutral'
+    return inferCheeringTeam(initialData.home_team, initialData.away_team)
+  })
   const [result, setResult] = useState<GameResult | ''>(initialData?.result ?? '')
   const [isCancelled, setIsCancelled] = useState(initialData?.is_cancelled ?? false)
   const [stadium, setStadium] = useState(initialData?.stadium ?? '')
@@ -153,7 +155,7 @@ export default function RecordForm({ initialData, recordId, favoriteTeam }: Prop
                 }}
                 className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2">
                 <option value="">선택</option>
-                {KBO_TEAMS.map((t) => <option key={t} value={t}>{t}</option>)}
+                {KBO_TEAMS.filter((t) => t !== awayTeam).map((t) => <option key={t} value={t}>{t}</option>)}
               </select>
             </div>
             <div>
@@ -170,7 +172,7 @@ export default function RecordForm({ initialData, recordId, favoriteTeam }: Prop
                 disabled={isFetchingAway}
                 className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:opacity-50">
                 <option value="">선택</option>
-                {KBO_TEAMS.map((t) => <option key={t} value={t}>{t}</option>)}
+                {KBO_TEAMS.filter((t) => t !== homeTeam).map((t) => <option key={t} value={t}>{t}</option>)}
               </select>
 
             </div>

@@ -5,6 +5,7 @@ import StatsCard from '@/components/dashboard/StatsCard'
 import RecentGames from '@/components/dashboard/RecentGames'
 import WinRateStats from '@/components/dashboard/WinRateStats'
 import StadiumStats from '@/components/dashboard/StadiumStats'
+import MonthlyChart from '@/components/dashboard/MonthlyChart'
 
 export default async function DashboardPage() {
   const [records, profile] = await Promise.all([getRecords(), getProfile()])
@@ -38,6 +39,8 @@ export default async function DashboardPage() {
           />
         </div>
       )}
+
+      <MonthlyChart monthlyMap={stats.monthlyMap} />
 
       <StadiumStats stadiumMap={stats.stadiumMap} />
     </div>
