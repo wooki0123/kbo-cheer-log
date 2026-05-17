@@ -4,8 +4,9 @@ const BADGE: Record<string, string> = {
   win: 'bg-blue-100 text-blue-700',
   lose: 'bg-red-100 text-red-700',
   draw: 'bg-gray-100 text-gray-600',
+  neutral: 'bg-purple-100 text-purple-700',
 }
-const LABEL: Record<string, string> = { win: '승', lose: '패', draw: '무' }
+const LABEL: Record<string, string> = { win: '승', lose: '패', draw: '무', neutral: '중립' }
 
 export default function RecentGames({ records }: { records: GameRecord[] }) {
   return (
@@ -16,10 +17,12 @@ export default function RecentGames({ records }: { records: GameRecord[] }) {
           <span
             key={r.id}
             className={`px-2 py-1 rounded text-sm font-bold ${
-              r.is_cancelled ? 'bg-yellow-100 text-yellow-700' : BADGE[r.result!]
+              r.is_cancelled ? 'bg-yellow-100 text-yellow-700'
+              : r.result === null ? BADGE.neutral
+              : BADGE[r.result]
             }`}
           >
-            {r.is_cancelled ? 'C' : LABEL[r.result!]}
+            {r.is_cancelled ? 'C' : r.result === null ? LABEL.neutral : LABEL[r.result]}
           </span>
         ))}
         {records.length === 0 && <p className="text-sm text-gray-400">기록 없음</p>}
