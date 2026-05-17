@@ -1,7 +1,7 @@
 import { GameRecord } from './types'
 
 export function calcStats(records: GameRecord[], favoriteTeam: string) {
-  const played = records.filter((r) => !r.is_cancelled)
+  const played = records.filter((r) => !r.is_cancelled && r.result !== null)
   const wins = played.filter((r) => r.result === 'win').length
   const losses = played.filter((r) => r.result === 'lose').length
   const draws = played.filter((r) => r.result === 'draw').length
