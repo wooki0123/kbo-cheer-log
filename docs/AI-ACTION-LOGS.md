@@ -2,6 +2,11 @@
 
 최근 작업 로그 (최대 100개 유지).
 
+## 2026-05-17 (우천취소 race condition 수정)
+
+- RecordForm: isCancelledRef (useRef) 추가 — autoFetchGame 비동기 완료 시 isCancelled 최신값 참조
+- autoSelectResult에 isCancelledRef.current 가드 추가 — 우천취소 상태에서 결과 덮어쓰기 방지
+
 ## 2026-05-17 (원정팀 UI + 주차별 차트)
 
 - 원정팀 드롭다운 제거, 읽기 전용 텍스트 표시로 변경 (자동 조회 전용)
