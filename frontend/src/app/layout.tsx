@@ -5,7 +5,7 @@ import "./globals.css";
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "KBO 직관 기록 앱",
+  title: "KBO 직관 기록 페이지",
   description: "야구 직관 기록 및 분석",
 };
 
