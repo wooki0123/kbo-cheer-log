@@ -11,7 +11,7 @@ const LABEL: Record<string, string> = { win: '승', lose: '패', draw: '무', ne
 export default function RecentGames({ records }: { records: GameRecord[] }) {
   return (
     <div className="bg-white rounded-lg shadow p-4">
-      <h2 className="text-sm font-semibold text-gray-600 mb-3">최근 5경기</h2>
+      <h2 className="text-sm font-semibold text-gray-600 mb-3">최근 5경기 <span className="font-normal text-gray-400">(전체 직관 기준)</span></h2>
       <div className="flex gap-2 flex-wrap">
         {records.map((r) => (
           <span
