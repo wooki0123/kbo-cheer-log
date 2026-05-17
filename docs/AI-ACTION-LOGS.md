@@ -2,6 +2,13 @@
 
 최근 작업 로그 (최대 100개 유지).
 
+## 2026-05-17 (원정팀 UI + 주차별 차트)
+
+- 원정팀 드롭다운 제거, 읽기 전용 텍스트 표시로 변경 (자동 조회 전용)
+- 제출 시 awayTeam 빈값 검증 추가
+- stats.ts monthlyMap → weeklyMap (YYYY-MM-WN 키, Math.ceil(date/7))
+- MonthlyChart 주차별 직관 횟수로 변경 ('N월 N주' 레이블, 제목 변경)
+
 ## 2026-05-17 (추가 편의성 개선)
 
 - RecordForm: 홈팀·원정팀 중복 선택 방지, 수정 시 중립 경기 응원팀 'neutral' 자동 추론
