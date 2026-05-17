@@ -98,6 +98,7 @@ export default function RecordForm({ initialData, recordId, favoriteTeam }: Prop
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!awayTeam) { setError('원정팀을 확인할 수 없습니다. 날짜와 홈팀을 다시 확인하세요.'); return }
     if (homeTeam === awayTeam) { setError('홈팀과 원정팀이 같을 수 없습니다.'); return }
 
     const payload = {
@@ -159,22 +160,12 @@ export default function RecordForm({ initialData, recordId, favoriteTeam }: Prop
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                원정팀{isFetchingAway && <span className="ml-1 text-xs text-gray-400">조회 중...</span>}
-              </label>
-              <select required value={awayTeam} onChange={(e) => {
-                  const team = e.target.value
-                  setAwayTeam(team)
-                  const newCheering = inferCheeringTeam(homeTeam, team)
-                  setCheeringTeam(newCheering)
-                  autoFetchGame(gameDate, homeTeam, team, newCheering)
-                }}
-                disabled={isFetchingAway}
-                className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 disabled:opacity-50">
-                <option value="">선택</option>
-                {KBO_TEAMS.filter((t) => t !== homeTeam).map((t) => <option key={t} value={t}>{t}</option>)}
-              </select>
-
+              <label className="block text-sm font-medium text-gray-700">원정팀</label>
+              <div className={`mt-1 block w-full border rounded-md px-3 py-2 text-sm ${
+                awayTeam ? 'border-gray-300 text-gray-800' : 'border-gray-200 text-gray-400'
+              }`}>
+                {isFetchingAway ? '조회 중...' : awayTeam || '홈팀 선택 후 자동 조회'}
+              </div>
             </div>
           </div>
 

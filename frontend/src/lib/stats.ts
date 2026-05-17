@@ -21,10 +21,11 @@ export function calcStats(records: GameRecord[], favoriteTeam: string) {
     stadiumMap[r.stadium] = (stadiumMap[r.stadium] ?? 0) + 1
   })
 
-  const monthlyMap: Record<string, number> = {}
+  const weeklyMap: Record<string, number> = {}
   records.forEach((r) => {
-    const month = r.game_date.slice(0, 7)
-    monthlyMap[month] = (monthlyMap[month] ?? 0) + 1
+    const week = Math.ceil(new Date(r.game_date).getDate() / 7)
+    const key = `${r.game_date.slice(0, 7)}-W${week}`
+    weeklyMap[key] = (weeklyMap[key] ?? 0) + 1
   })
 
   const recent5 = [...records]
@@ -45,7 +46,7 @@ export function calcStats(records: GameRecord[], favoriteTeam: string) {
     awayGames: awayGames.length,
     awayWinRate,
     stadiumMap,
-    monthlyMap,
+    weeklyMap,
     recent5,
   }
 }

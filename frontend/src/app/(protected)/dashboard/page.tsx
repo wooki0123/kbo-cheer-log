@@ -40,7 +40,7 @@ export default async function DashboardPage() {
         </div>
       )}
 
-      <MonthlyChart monthlyMap={stats.monthlyMap} />
+      <MonthlyChart weeklyMap={stats.weeklyMap} />
 
       <StadiumStats stadiumMap={stats.stadiumMap} />
     </div>
