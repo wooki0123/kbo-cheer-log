@@ -13,24 +13,31 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-bold">
-        {favoriteTeam ? `${favoriteTeam} 직관 통계` : '직관 통계'}
-      </h1>
+      <h1 className="text-xl font-bold">내 직관 통계</h1>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        <StatsCard label="총 직관" value={stats.total} sub={`응원 ${stats.played} · 중립 ${stats.neutral} · 취소 ${stats.cancelled}`} />
-        <StatsCard label="승률" value={`${stats.winRate}%`} sub={`응원경기 ${stats.played}경기 기준`} />
-        <StatsCard label="승 / 패 / 무" value={`${stats.wins} / ${stats.losses} / ${stats.draws}`} />
+      <div>
+        <h2 className="text-sm font-semibold text-gray-500 mb-2">내 직관 현황</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <StatsCard label="총 직관" value={stats.total} sub={`응원 ${stats.played} · 중립 ${stats.neutral} · 취소 ${stats.cancelled}`} />
+          <StatsCard label="응원 승률" value={`${stats.winRate}%`} sub={`응원경기 ${stats.played}경기 기준`} />
+          <StatsCard label="승 / 패 / 무" value={`${stats.wins} / ${stats.losses} / ${stats.draws}`} />
+        </div>
       </div>
 
       <RecentGames records={stats.recent5} />
 
-      <WinRateStats
-        homeGames={stats.homeGames}
-        homeWinRate={stats.homeWinRate}
-        awayGames={stats.awayGames}
-        awayWinRate={stats.awayWinRate}
-      />
+      {favoriteTeam && (
+        <div>
+          <h2 className="text-sm font-semibold text-gray-500 mb-2">{favoriteTeam} 경기</h2>
+          <WinRateStats
+            favoriteTeam={favoriteTeam}
+            homeGames={stats.homeGames}
+            homeWinRate={stats.homeWinRate}
+            awayGames={stats.awayGames}
+            awayWinRate={stats.awayWinRate}
+          />
+        </div>
+      )}
 
       <StadiumStats stadiumMap={stats.stadiumMap} />
     </div>
