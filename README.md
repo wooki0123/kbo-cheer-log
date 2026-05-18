@@ -78,18 +78,11 @@ npm run dev
 ## 실행 방법
 
 ```bash
-# 개발 서버
-npm run dev
-
-# 프로덕션 빌드
-npm run build
-npm start
-
-# 린트
-npm run lint
+배포링크 : https://kbo-cheer-log.vercel.app
 ```
-
-로컬 실행 후 `http://localhost:3000` 접속
+1. 회원가입 - 아이디/비밀번호 설정 및 응원팀 지정
+2. 기록 추가 - 날짜 입력 후 홈팀 선택 시 경기 결과 자동 호출
+3. 별점 및 후기(메모) 입력 후 저장
 
 ---
 
