@@ -176,3 +176,58 @@ docs: 문서 수정
 style: 스타일·포맷 변경
 chore: 빌드·설정 변경
 ```
+---
+
+# 회고
+
+- 어려웠던 점 :
+  1. AI가 가상의 API를 가져왔을 때, 실제 사이트의 구조와 많이 달라서 수정하는데 시간이 걸렸음.
+  2. 만들어진 소스코드를 분석하고 이해하는 것이 익숙하지 않았음.
+
+- 개선하고 싶은 점 :
+  1. 아쉽게 인증 부분에서 이닝별 스코를 가져오는 것이 막혀서 해결하고 싶음.
+  2. 추가 기능을 넣고 싶음.(커뮤니티 기능 - 게시글, 경기 알림 등)
+
+- 새롭게 배운 점 :
+  1. AI를 활용하여 혼자서 개발한 첫 페이지로, 전반적인 개발 프로세스를 경험함.
+  2. 기존 사이트를 참조할 때 어떻게 데이터를 파싱해야 하는지 알게 되었음.
+
+- AI 에이전트를 사용하며 느낀 점 :
+  1. AI가 제공한 API는 실제 사이트와 다를 수 있기 때문에 잘 확인하고 개발을 진행해야 됨.
+  2. 기초적인 틀은 잘 잡아주지만, 디테일한 부분은 내 기획을 기준으로 진행해야 하기에 소스코드를 분석하고 수정하는 능력이 필요함.
+
+---
+
+## 참고 자료
+
+### 공식 문서
+
+| 기술 | 링크 |
+| ---- | ---- |
+| Next.js (App Router) | https://nextjs.org/docs |
+| TypeScript | https://www.typescriptlang.org/docs |
+| Tailwind CSS v4 | https://tailwindcss.com/docs |
+| Supabase 공식 문서 | https://supabase.com/docs |
+| Supabase Auth (SSR) | https://supabase.com/docs/guides/auth/server-side/nextjs |
+| Supabase Row Level Security | https://supabase.com/docs/guides/database/postgres/row-level-security |
+| Recharts | https://recharts.org/en-US/api |
+| Vercel 배포 가이드 | https://vercel.com/docs/frameworks/nextjs |
+
+### 참고한 사이트
+
+| 제목 | 링크 |
+| ---- | ---- |
+| Next.js Server Actions 가이드 | https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations |
+| Supabase + Next.js 통합 예제 | https://github.com/supabase/supabase/tree/master/examples/auth/nextjs |
+| 네이버 스포츠 KBO 일정 API | https://api-gw.sports.naver.com/schedule/games |
+
+### 사용한 라이브러리
+
+| 라이브러리 | 버전 | 링크 |
+| ---------- | ---- | ---- |
+| next | 16.x | https://www.npmjs.com/package/next |
+| typescript | 5.x | https://www.npmjs.com/package/typescript |
+| tailwindcss | 4.x | https://www.npmjs.com/package/tailwindcss |
+| recharts | 3.x | https://www.npmjs.com/package/recharts |
+| @supabase/supabase-js | latest | https://www.npmjs.com/package/@supabase/supabase-js |
+| @supabase/ssr | latest | https://www.npmjs.com/package/@supabase/ssr |
